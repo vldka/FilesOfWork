@@ -25,7 +25,6 @@ public class ParsingZipFileTest {
         PDF pdf = new PDF(dowloaded);
         Assertions.assertThat(pdf.text).contains("Windows & Linux keymap");
         System.out.println(pdf.text);
-        //String dataAsString = FileUtils.readFileToString(dowloaded,StandardCharsets.UTF_8);
     }
 
     @Test
@@ -39,8 +38,6 @@ public class ParsingZipFileTest {
         assertThat(product1).contains("Железо");
         assertThat(product2).contains("Бетон");
         assertThat(product3).contains("Медь");
-        //String dataAsString = FileUtils.readFileToString(dowloaded,StandardCharsets.UTF_8);
-        //Действия
     }
 
     @Test
@@ -58,9 +55,6 @@ public class ParsingZipFileTest {
                     new String[]{"Haryana", "Karnal"}, data.get(3)
             );
         }
-
-        //String dataAsString = FileUtils.readFileToString(dowloaded,StandardCharsets.UTF_8);
-        //Действия
     }
 
     @Test
@@ -71,13 +65,11 @@ public class ParsingZipFileTest {
             ZipEntry entry;
 
             while ((entry = zis.getNextEntry()) != null) {
-                if(entry.getName().equals("IntelliJIDEA_ReferenceCard.pdf"))
-                {
+                if (entry.getName().equals("IntelliJIDEA_ReferenceCard.pdf")) {
                     PDF pdf = new PDF(zis);
                     Assertions.assertThat(pdf.text).contains("Windows & Linux keymap");
                 }
-                if(entry.getName().equals("production.xlsx"))
-                {
+                if (entry.getName().equals("production.xlsx")) {
                     XLS xls = new XLS(zis);
                     String product1 = xls.excel.getSheetAt(0).getRow(1).getCell(1).getStringCellValue();
                     String product2 = xls.excel.getSheetAt(0).getRow(15).getCell(1).getStringCellValue();
@@ -86,8 +78,7 @@ public class ParsingZipFileTest {
                     assertThat(product2).contains("Бетон");
                     assertThat(product3).contains("Медь");
                 }
-                if(entry.getName().equals("successfulCheckStateCityCsvFile.csv"))
-                {
+                if (entry.getName().equals("successfulCheckStateCityCsvFile.csv")) {
                     CSVReader csvReader = new CSVReader(new InputStreamReader(zis));
                     List<String[]> data = csvReader.readAll();
                     org.junit.jupiter.api.Assertions.assertEquals(5, data.size());
@@ -100,8 +91,5 @@ public class ParsingZipFileTest {
                 }
             }
         }
-
-        //String dataAsString = FileUtils.readFileToString(dowloaded,StandardCharsets.UTF_8);
-        //Действия
     }
 }
