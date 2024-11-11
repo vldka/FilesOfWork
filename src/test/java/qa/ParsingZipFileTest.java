@@ -19,7 +19,7 @@ public class ParsingZipFileTest {
     private ClassLoader cl = ParsingZipFileTest.class.getClassLoader();
 
     @Test
-    @DisplayName("Чтение файла из zip в формате PDF")
+    @DisplayName("Чтение файла в формате PDF")
     void ReadFilePDFTest() throws Exception {
         var dowloaded = cl.getResourceAsStream("FileZip/IntelliJIDEA_ReferenceCard.pdf");
         PDF pdf = new PDF(dowloaded);
@@ -29,7 +29,7 @@ public class ParsingZipFileTest {
     }
 
     @Test
-    @DisplayName("Чтение файла из zip в формате xlsx")
+    @DisplayName("Чтение файла в формате xlsx")
     void ReadFileXLSTest() throws Exception {
         var dowloaded = cl.getResourceAsStream("FileZip/production.xlsx");
         XLS xls = new XLS(dowloaded);
@@ -44,7 +44,7 @@ public class ParsingZipFileTest {
     }
 
     @Test
-    @DisplayName("Чтение файла из zip в формате csv")
+    @DisplayName("Чтение файла в формате csv")
     void ReadFileCSVTest() throws Exception {
         var dowloaded = cl.getResourceAsStream("FileZip/successfulCheckStateCityCsvFile.csv");
         try (dowloaded;
