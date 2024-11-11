@@ -1,0 +1,34 @@
+﻿package qa;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import model.JsonBody;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.io.InputStream;
+
+public class ParsingJsonFileTest {
+    private final ClassLoader cl = ParsingZipFileTest.class.getClassLoader();
+    private static final ObjectMapper om = new ObjectMapper();
+
+    @Test
+    @DisplayName("Чтение файла json")
+    void jsonFileParsingTest() throws Exception {
+        try (InputStream is = cl.getResourceAsStream("filetest.json")) {
+            JsonBody fileTest = om.readValue(is, JsonBody.class);
+
+            Assertions.assertThat(fileTest.getPerson().get(0).getLast_name()).isEqualTo("Иванов");
+            Assertions.assertThat(fileTest.getPerson().get(0).getFirst_name()).isEqualTo("Иван");
+            Assertions.assertThat(fileTest.getPerson().get(0).getPatronymic()).isEqualTo("Иванович");
+            Assertions.assertThat(fileTest.getPerson().get(0).getDate_of_birth()).isEqualTo("01.01.2001");
+            Assertions.assertThat(fileTest.getPerson().get(0).getGroup_number()).isEqualTo(1);
+
+            Assertions.assertThat(fileTest.getPerson().get(0).getLast_name()).isEqualTo("Петров");
+            Assertions.assertThat(fileTest.getPerson().get(0).getFirst_name()).isEqualTo("Пётр");
+            Assertions.assertThat(fileTest.getPerson().get(0).getPatronymic()).isEqualTo("Петрович");
+            Assertions.assertThat(fileTest.getPerson().get(0).getDate_of_birth()).isEqualTo("10.10.2001");
+            Assertions.assertThat(fileTest.getPerson().get(0).getGroup_number()).isEqualTo(1);
+        }
+    }
+}

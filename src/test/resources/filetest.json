@@ -1,0 +1,13 @@
+﻿  {
+    "last_name": "Ivanov",
+    "first_name": "Ivan",
+    "patronymic": "Ivanovich",
+    "group_number": [
+      {
+        "value": 1
+      },
+      {
+        "value": 2
+      }
+    ]
+  }

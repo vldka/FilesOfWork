@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="qa.ParsingJsonFileTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-11-11T11:56:16" hostname="DESKTOP-7NG7RM7" time="0.274">
+  <properties/>
+  <testcase name="Р§С‚РµРЅРёРµ С„Р°Р№Р»Р° json" classname="qa.ParsingJsonFileTest" time="0.274"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
