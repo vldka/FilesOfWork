@@ -16,11 +16,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class ParsingZipFileTest {
 
-    private ClassLoader cl = ParsingZipFileTest.class.getClassLoader();
+    private final ClassLoader cl = ParsingZipFileTest.class.getClassLoader();
+    private int count = 0;
 
     @Test
     @DisplayName("Чтение файла в формате PDF")
-    void ReadFilePDFTest() throws Exception {
+    void readFilePDFTest() throws Exception {
         var dowloaded = cl.getResourceAsStream("IntelliJIDEA_ReferenceCard.pdf");
         PDF pdf = new PDF(dowloaded);
         Assertions.assertThat(pdf.text).contains("Windows & Linux keymap");
@@ -29,7 +30,7 @@ public class ParsingZipFileTest {
 
     @Test
     @DisplayName("Чтение файла в формате xlsx")
-    void ReadFileXLSTest() throws Exception {
+    void readFileXLSTest() throws Exception {
         var dowloaded = cl.getResourceAsStream("production.xlsx");
         XLS xls = new XLS(dowloaded);
         String product1 = xls.excel.getSheetAt(0).getRow(1).getCell(1).getStringCellValue();
@@ -42,7 +43,7 @@ public class ParsingZipFileTest {
 
     @Test
     @DisplayName("Чтение файла в формате csv")
-    void ReadFileCSVTest() throws Exception {
+    void readFileCSVTest() throws Exception {
         var dowloaded = cl.getResourceAsStream("successfulCheckStateCityCsvFile.csv");
         try (dowloaded;
              CSVReader csvReader = new CSVReader(new InputStreamReader(dowloaded))) {
@@ -58,17 +59,35 @@ public class ParsingZipFileTest {
     }
 
     @Test
-    @DisplayName("Чтение файла из zip")
-    void ReadFileZipTest() throws Exception {
+    @DisplayName("Чтение файла из zip в pdf")
+    void readFileZipIsPdfTest() throws Exception {
         try (ZipInputStream zis = new ZipInputStream(cl.getResourceAsStream("FileZip/FileZip.zip")
         )) {
             ZipEntry entry;
 
             while ((entry = zis.getNextEntry()) != null) {
+
                 if (entry.getName().equals("IntelliJIDEA_ReferenceCard.pdf")) {
                     PDF pdf = new PDF(zis);
                     Assertions.assertThat(pdf.text).contains("Windows & Linux keymap");
+                    count++;
+                    break;
                 }
+            }
+            if (count == 0) {
+                throw new NullPointerException("Файл pdf не найден");
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Чтение файла из zip в xls")
+    void readFileZipIsXlsTest() throws Exception {
+        try (ZipInputStream zis = new ZipInputStream(cl.getResourceAsStream("FileZip/FileZip.zip")
+        )) {
+            ZipEntry entry;
+
+            while ((entry = zis.getNextEntry()) != null) {
                 if (entry.getName().equals("production.xlsx")) {
                     XLS xls = new XLS(zis);
                     String product1 = xls.excel.getSheetAt(0).getRow(1).getCell(1).getStringCellValue();
@@ -77,7 +96,24 @@ public class ParsingZipFileTest {
                     assertThat(product1).contains("Железо");
                     assertThat(product2).contains("Бетон");
                     assertThat(product3).contains("Медь");
+                    count++;
+                    break;
                 }
+            }
+            if (count == 0) {
+                throw new NullPointerException("Файл xlsx не найден");
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Чтение файла из zip в csv")
+    void readFileZipIsCsvTest() throws Exception {
+        try (ZipInputStream zis = new ZipInputStream(cl.getResourceAsStream("FileZip/FileZip.zip")
+        )) {
+            ZipEntry entry;
+
+            while ((entry = zis.getNextEntry()) != null) {
                 if (entry.getName().equals("successfulCheckStateCityCsvFile.csv")) {
                     CSVReader csvReader = new CSVReader(new InputStreamReader(zis));
                     List<String[]> data = csvReader.readAll();
@@ -88,7 +124,12 @@ public class ParsingZipFileTest {
                     org.junit.jupiter.api.Assertions.assertArrayEquals(
                             new String[]{"Haryana", "Karnal"}, data.get(3)
                     );
+                    count++;
+                    break;
                 }
+            }
+            if (count == 0) {
+                throw new NullPointerException("Файл csv не найден");
             }
         }
     }
