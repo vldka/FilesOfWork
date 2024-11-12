@@ -21,7 +21,7 @@ public class ParsingZipFileTest {
     @Test
     @DisplayName("Чтение файла в формате PDF")
     void ReadFilePDFTest() throws Exception {
-        var dowloaded = cl.getResourceAsStream("FileZip/IntelliJIDEA_ReferenceCard.pdf");
+        var dowloaded = cl.getResourceAsStream("IntelliJIDEA_ReferenceCard.pdf");
         PDF pdf = new PDF(dowloaded);
         Assertions.assertThat(pdf.text).contains("Windows & Linux keymap");
         System.out.println(pdf.text);
@@ -30,7 +30,7 @@ public class ParsingZipFileTest {
     @Test
     @DisplayName("Чтение файла в формате xlsx")
     void ReadFileXLSTest() throws Exception {
-        var dowloaded = cl.getResourceAsStream("FileZip/production.xlsx");
+        var dowloaded = cl.getResourceAsStream("production.xlsx");
         XLS xls = new XLS(dowloaded);
         String product1 = xls.excel.getSheetAt(0).getRow(1).getCell(1).getStringCellValue();
         String product2 = xls.excel.getSheetAt(0).getRow(15).getCell(1).getStringCellValue();
@@ -43,7 +43,7 @@ public class ParsingZipFileTest {
     @Test
     @DisplayName("Чтение файла в формате csv")
     void ReadFileCSVTest() throws Exception {
-        var dowloaded = cl.getResourceAsStream("FileZip/successfulCheckStateCityCsvFile.csv");
+        var dowloaded = cl.getResourceAsStream("successfulCheckStateCityCsvFile.csv");
         try (dowloaded;
              CSVReader csvReader = new CSVReader(new InputStreamReader(dowloaded))) {
             List<String[]> data = csvReader.readAll();
